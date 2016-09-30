@@ -1,0 +1,15 @@
+{
+  "name": "poker-app",
+  "version": "0.0.1",
+  "description": "Poker tournment manager",
+  "main": "app.js",
+  "author": "Luís Nascimento",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "gulp-nodemon": "^2.1.0"
+  }
+}

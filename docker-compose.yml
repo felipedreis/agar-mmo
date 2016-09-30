@@ -1,0 +1,22 @@
+agar-client:  
+  image: luisnascimento/nodejs
+  volumes:
+    - ./client:/var/www/client
+  expose:
+    - "80"
+  ports:
+    - "80:80"
+  container_name: agar-client
+  working_dir: /var/www/client
+  entrypoint: ["gulp"]
+agar-server:  
+  image: luisnascimento/nodejs
+  volumes:
+    - ./server:/var/www/server
+  expose:
+    - "3000"
+  ports:
+    - "3000:3000"
+  container_name: agar-server
+  working_dir: /var/www/server
+  entrypoint: ["gulp"]

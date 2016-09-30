@@ -1,0 +1,11 @@
+{
+  "name": "agar-client",
+  "version": "0.0.1",
+  "description": "Agar Client application for Distribuited Systems class",
+  "main": "app.js",
+  "author": "Luís Nascimento",
+  "license": "MIT",
+  "dependencies": {
+
+  }
+}
