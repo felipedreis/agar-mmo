@@ -6,6 +6,7 @@
   "author": "Luís Nascimento",
   "license": "MIT",
   "dependencies": {
+    "jquery": "^3.1.1",
     "phaser": "^2.6.2"
   }
 }
