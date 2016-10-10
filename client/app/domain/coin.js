@@ -4,8 +4,8 @@ function coinModule( game ) {
     coins.enableBody = true;
 
     function create(){
-        var x = Math.floor( Math.random() * constantsModule.GAME_WIDHT );
-        var y = Math.floor( Math.random() * constantsModule.GAME_HEIGHT );
+        var x = Math.floor( Math.random() * constants.GAME_WIDHT );
+        var y = Math.floor( Math.random() * constants.GAME_HEIGHT );
 
         var coin = coins.create( x, y, 'coin' );
         

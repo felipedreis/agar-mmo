@@ -11,6 +11,7 @@ app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );
 
 app.use( require( './routes/index.js' ) );
+app.use( require( './routes/player.js' ) );
 
 app.listen( PORT, function(){
   console.log( 'API running on http://localhost:' + PORT );

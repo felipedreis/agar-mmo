@@ -1,4 +1,4 @@
-const game = new Phaser.Game( constantsModule.GAME_WIDHT, constantsModule.GAME_HEIGHT, Phaser.CANVAS, 'gameContainer' );
+const game = new Phaser.Game( constants.GAME_WIDHT, constants.GAME_HEIGHT, Phaser.CANVAS, 'gameContainer' );
 
 var Player;
 var Coin;

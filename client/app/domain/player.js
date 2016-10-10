@@ -57,7 +57,7 @@ function playerModule( game ) {
     }
 
     function preventColisions( coins ){
-        var hitCoin = game.physics.arcade.collide( this, coins, function collisionCallback( player, coin ){
+        game.physics.arcade.collide( this, coins, function collisionCallback( player, coin ){
             coin.kill();
             
             var score = player.getChildAt( 0 );
