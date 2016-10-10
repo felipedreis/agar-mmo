@@ -22,6 +22,10 @@ const GameState = {
         Coin = coinModule( game );        
         
         Coin.create();
+        
+        setInterval( function(){
+            Coin.create();
+        }, 15 * 1000);        
 
         player = Player.create();
     },
