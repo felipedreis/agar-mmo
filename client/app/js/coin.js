@@ -1,22 +1,23 @@
 function coinModule( game ) {
     
-    var coins = [];
+    var coins = game.add.group();
+    coins.enableBody = true;
 
     function create(){
         var x = Math.floor( Math.random() * constantsModule.GAME_WIDHT );
         var y = Math.floor( Math.random() * constantsModule.GAME_HEIGHT );
 
-        var coin = game.add.sprite( x, y, 'coin' );
+        var coin = coins.create( x, y, 'coin' );
         
         coin.scale.setTo( 0.15, 0.15 );
+        coin.body.immovable = true;
         
-        coins.push( coin );
-
         return coin;
     }
     
     return {
-        create: create
+        create: create,
+        coins: coins
     }
 
 }
