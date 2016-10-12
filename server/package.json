@@ -8,7 +8,8 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "cors": "^2.7.1",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "socket.io": "^1.5.0"
   },
   "devDependencies": {
     "gulp-nodemon": "^2.0.6",

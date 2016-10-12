@@ -12,6 +12,11 @@ const GameState = {
         game.load.image( 'coin', 'assets/coin.png' ); 
 
         cursors = game.input.keyboard.createCursorKeys();
+        
+        var socket = io( 'http://localhost:3000' );
+        socket.on( 'connect', function() {
+            console.log( 'Connected' );
+        });
     },
     create: function () {
         
