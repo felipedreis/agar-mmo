@@ -46,9 +46,13 @@ io.on( 'connection', function( socket ){
     coins: coins
   });
     
-  setInterval( function(){
-    var coin = Coin.generate();
-    io.broadcast.emit( 'new_coin', coin );
-  }, 1000 );
+  setInterval( function() {
+    
+    if( Coin.coins.length <= Player.players.length * 5 ) {
+      var coin = Coin.generate();
+      io.emit( 'new_coin', coin );
+    }
+        
+  }, 5 * 1000 );
 
 });

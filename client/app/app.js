@@ -30,6 +30,7 @@ const GameState = {
         });
         
         socket.on( 'initial_state', function( state ) {
+            console.log( state );
             me = Player.create( state.player );
 
             for( var i = 0; i < state.rivals.length; i++ ){
@@ -48,8 +49,8 @@ const GameState = {
             Player.remove( playerID );
         });
 
-        socket.on('new_coin', function() {
-
+        socket.on('new_coin', function( coin ) {
+            Coin.create( coin.position );
         });
         
     },

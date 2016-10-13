@@ -2,9 +2,8 @@ const position = require( './position' );
 
 module.exports = ( function() {
 
-	var Coins = [];
+	var coins = [];
 	var idCount = 0;
-
 
     function generate(){
     	idCount++;
@@ -14,25 +13,26 @@ module.exports = ( function() {
             position : position.getRandomPosition()
         };
 
-        Coins.push(coin);
+        coins.push( coin );
 
         return coin;
     }
     
     function remove( coinID ) {
-    	var coin = Coins.filter( function( coinID ) {
+    	var coin = coins.filter( function( coinID ) {
             return coin.ID == coinID;
         });
         
-        var index = Coins.indexOf( coin[0] );
+        var index = coins.indexOf( coin[0] );
         
         if ( index > -1 ) 
-            Coins.splice( index, 1 );
+            coins.splice( index, 1 );
     }
     
     return {
         generate: generate,
-        remove: remove
+        remove: remove,
+        coins: coins
     };
     
 })();
