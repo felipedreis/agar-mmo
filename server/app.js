@@ -3,6 +3,9 @@ const app         = express();
 const cors        = require( 'cors' );
 const bodyParser  = require( 'body-parser' );
 const http        = require( 'http' ).Server( app );
+const extend      = require('util')._extend;
+
+const Player      = require( './domain/player.js' );
     
 const PORT = 3000;
 
@@ -21,7 +24,25 @@ const server = app.listen( PORT, function() {
 
 const io = require( 'socket.io' )( server );
 
-io.set( 'origins', '*:*' );
 io.on( 'connection', function( socket ){
-  console.log( 'User connected.' );
+    
+  socket.on( 'disconnect', function() {
+    Player.remove( socket.ID );
+    //console.log( Player.players );
+    socket.broadcast.emit( 'player_disconnected', socket.ID );
+  });
+    
+  var rivals = extend( [], Player.players ); // Copyng object intead of passing as reference
+  var player = Player.register();
+  
+  socket.ID = player.ID;
+  
+  socket.broadcast.emit( 'player_registred', player );
+  socket.emit( 'player_credencials', player );
+  
+  for ( var i = 0; i < rivals.length; i++ ) {
+    var rival = rivals[ i ];
+    socket.emit( 'player_registred', rival );
+  }
+  
 });

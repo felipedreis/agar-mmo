@@ -30,7 +30,17 @@ function playerModule( game ) {
 
         player.body.collideWorldBounds = true;
         
+        player.ID = options.ID;
+        
         return player;
+    }
+    
+    function remove( playerID ) {
+        var player = players.filter( function( player ){
+            return player.ID == playerID;   
+        }).list[0];
+                
+        player.kill();
     }
 
     function move( cursors ) {
@@ -56,18 +66,6 @@ function playerModule( game ) {
         
     }
     
-    function loadPlayers( me ) {
-        
-        playerService.getPlayers( function onSuccess( data ) {
-            $.each( data, function( index, player ) {
-                create( player );    
-            })            
-        }, function onError( data ) {
-            console.log( data );
-        });
-        
-    }
-    
     function preventColisions( coins, players ){
         game.physics.arcade.collide( this, coins, function collisionCallback( player, coin ){
             coin.kill();
@@ -83,8 +81,8 @@ function playerModule( game ) {
     
     return {
         create: create,
-        loadPlayers: loadPlayers,
-        players: players
+        players: players,
+        remove: remove
     }
 
 }
