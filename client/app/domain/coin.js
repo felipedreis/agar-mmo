@@ -3,11 +3,9 @@ function coinModule( game ) {
     var coins = game.add.group();
     coins.enableBody = true;
 
-    function create(){
-        var x = Math.floor( Math.random() * constants.GAME_WIDHT );
-        var y = Math.floor( Math.random() * constants.GAME_HEIGHT );
-
-        var coin = coins.create( x, y, 'coin' );
+    function create( position ){
+        
+        var coin = coins.create( position.x, position.y, 'coin' );
         
         coin.scale.setTo( 0.15, 0.15 );
         coin.body.immovable = true;

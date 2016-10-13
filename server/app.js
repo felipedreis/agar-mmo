@@ -3,8 +3,9 @@ const app         = express();
 const cors        = require( 'cors' );
 const bodyParser  = require( 'body-parser' );
 const http        = require( 'http' ).Server( app );
-const extend      = require('util')._extend;
+const extend      = require( 'util' )._extend;
 
+const Coin        = require('./domain/coin.js');
 const Player      = require( './domain/player.js' );
     
 const PORT = 3000;
@@ -32,16 +33,22 @@ io.on( 'connection', function( socket ){
   });
     
   var rivals = extend( [], Player.players ); // Copyng object instead of passing as reference
+  var coins = extend( [], Coin.coins ); // Copyng object instead of passing as reference
   var player = Player.register();
   
   socket.ID = player.ID;
   
   socket.broadcast.emit( 'player_registred', player );
-  socket.emit( 'player_credencials', player );
   
-  for ( var i = 0; i < rivals.length; i++ ) {
-    var rival = rivals[ i ];
-    socket.emit( 'player_registred', rival );
-  }
-  
+  socket.emit( 'initial_state', {
+    player: player,
+    rivals: rivals,
+    coins: coins
+  });
+    
+  setInterval( function(){
+    var coin = Coin.generate();
+    io.broadcast.emit( 'new_coin', coin );
+  }, 1000 );
+
 });

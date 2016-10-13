@@ -22,21 +22,34 @@ const GameState = {
 
         Player = playerModule( game );
         Coin = coinModule( game );       
-        
-        Coin.create();
-        
+               
         var socket = io( 'http://localhost:3000' );
         
         socket.on( 'player_registred', function( player ) {
             Player.create( player );
         });
         
-        socket.on( 'player_credencials', function( player ) {
-            me = Player.create( player );
+        socket.on( 'initial_state', function( state ) {
+            me = Player.create( state.player );
+
+            for( var i = 0; i < state.rivals.length; i++ ){
+                var rival = state.rivals[ i ];
+                Player.create( rival );
+            }
+
+            for( var i = 0; i < state.coins.length; i++ ){
+                var coin = state.coins[ i ];
+                Coin.create( coin.position );
+            }
+
         });
                 
         socket.on( 'player_disconnected', function( playerID ){
             Player.remove( playerID );
+        });
+
+        socket.on('new_coin', function() {
+
         });
         
     },
