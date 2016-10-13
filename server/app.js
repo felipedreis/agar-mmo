@@ -28,7 +28,6 @@ io.on( 'connection', function( socket ){
     
   socket.on( 'disconnect', function() {
     Player.remove( socket.ID );
-    //console.log( Player.players );
     socket.broadcast.emit( 'player_disconnected', socket.ID );
   });
     

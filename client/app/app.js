@@ -36,7 +36,6 @@ const GameState = {
         });
                 
         socket.on( 'player_disconnected', function( playerID ){
-            console.log( 'Deletando jogador ' + playerID );
             Player.remove( playerID );
         });
         
