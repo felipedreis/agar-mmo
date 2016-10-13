@@ -31,7 +31,7 @@ io.on( 'connection', function( socket ){
     socket.broadcast.emit( 'player_disconnected', socket.ID );
   });
     
-  var rivals = extend( [], Player.players ); // Copyng object intead of passing as reference
+  var rivals = extend( [], Player.players ); // Copyng object instead of passing as reference
   var player = Player.register();
   
   socket.ID = player.ID;
