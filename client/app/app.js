@@ -5,6 +5,7 @@ var Coin;
 
 var cursors;
 var me;
+var socket;
 
 const GameState = {
     preload: function () {
@@ -23,14 +24,14 @@ const GameState = {
         Player = playerModule( game );
         Coin = coinModule( game );       
                
-        var socket = io( 'http://localhost:3000' );
+        socket = io( 'http://localhost:3000' );
         
         socket.on( 'player_registred', function( player ) {
             Player.create( player );
         });
         
         socket.on( 'initial_state', function( state ) {
-            console.log( state );
+            
             me = Player.create( state.player );
 
             for( var i = 0; i < state.rivals.length; i++ ){
@@ -49,15 +50,26 @@ const GameState = {
             Player.remove( playerID );
         });
 
-        socket.on('new_coin', function( coin ) {
+        socket.on( 'new_coin', function( coin ) {
             Coin.create( coin.position );
+        });
+        
+        socket.on( 'player_moved', function( playerMoved ) {
+            console.log( 'Player moved: ' + playerMoved.ID );
+            var player = Player.getByID( playerMoved.ID );
+            player.move( playerMoved.position );
         });
         
     },
     update: function () {        
         if ( me ) {
-            me.move( cursors );
-            me.preventColisions( Coin.coins, Player.players );    
+            me.preventColisions( Coin.coins, Player.players );
+            var playerMoved = me.enableCursors( cursors );
+            
+            if ( playerMoved && socket ) {
+                console.log( 'Enviando mensagem player_moved' );
+                socket.emit( 'player_moved', { ID: me.ID, position: me.position } )
+            }    
         }
     }
 };

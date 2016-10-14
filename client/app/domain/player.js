@@ -25,8 +25,9 @@ function playerModule( game ) {
         name.position.y += name.height * 1.5;
         player.addChild( name );
         
-        player.move = move;
+        player.enableCursors = enableCursors;
         player.preventColisions = preventColisions;
+        player.move = move;
 
         player.body.collideWorldBounds = true;
         
@@ -36,34 +37,54 @@ function playerModule( game ) {
     }
     
     function remove( playerID ) {
+        var player = getByID( playerID );                
+        player.kill();
+    }
+    
+    function getByID( playerID ) {
         var player = players.filter( function( player ){
             return player.ID == playerID;   
         }).list[0];
-                
-        player.kill();
+        
+        return player;
     }
 
-    function move( cursors ) {
+    function enableCursors( cursors ) {
         
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         
         if ( ( cursors.left.isDown && cursors.right.isDown ) ||
              ( cursors.up.isDown && cursors.down.isDown ) )
-             return;
+             return false;
              
-        if ( cursors.left.isDown )
+        if ( cursors.left.isDown ) {
             this.body.velocity.x = -200;
+            return true;
+        }            
         
-        if ( cursors.right.isDown )
+        if ( cursors.right.isDown ) {
             this.body.velocity.x = 200;
+            return true;
+        }
         
-        if ( cursors.up.isDown )
+        if ( cursors.up.isDown ) {
             this.body.velocity.y = -200;
+            return true;
+        }
         
-        if ( cursors.down.isDown )
+        if ( cursors.down.isDown ) {
             this.body.velocity.y = 200;
+            return true;
+        }
+            
+        return false;
         
+    }
+    
+    function move( position ) {
+        this.x = position.x;
+        this.y = position.y;
     }
     
     function preventColisions( coins, players ){
@@ -82,7 +103,8 @@ function playerModule( game ) {
     return {
         create: create,
         players: players,
-        remove: remove
+        remove: remove,
+        getByID: getByID
     }
 
 }

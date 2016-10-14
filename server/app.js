@@ -31,9 +31,13 @@ io.on( 'connection', function( socket ){
     Player.remove( socket.ID );
     socket.broadcast.emit( 'player_disconnected', socket.ID );
   });
+  
+  socket.on( 'player_moved', function( player ) {
+    socket.broadcast.emit( 'player_moved', player );
+  });
     
   var rivals = extend( [], Player.players ); // Copyng object instead of passing as reference
-  var coins = extend( [], Coin.coins ); // Copyng object instead of passing as reference
+  var coins = extend( [], Coin.coins );
   var player = Player.register();
   
   socket.ID = player.ID;
