@@ -23,21 +23,28 @@ module.exports = ( function() {
     
     function remove( playerID ) {
         
-        var player = players.filter( function( player ) {
-            return player.ID == playerID;
-        });
+        var player = getByID( playerID );
         
-        var index = players.indexOf( player[0] );
+        var index = players.indexOf( player );
         
         if ( index > -1 ) 
             players.splice( index, 1 );
         
     }
     
+    function getByID( playerID ) {
+        var player = players.filter( function( player ) {
+            return player.ID == playerID;
+        })[0];
+        
+        return player;
+    }
+    
     return {
         register: register,
         players: players,
-        remove: remove
+        remove: remove,
+        getByID: getByID
     };
     
 })();

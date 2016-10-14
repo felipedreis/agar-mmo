@@ -32,8 +32,11 @@ io.on( 'connection', function( socket ){
     socket.broadcast.emit( 'player_disconnected', socket.ID );
   });
   
-  socket.on( 'player_moved', function( player ) {
-    socket.broadcast.emit( 'player_moved', player );
+  socket.on( 'player_moved', function( playerMoved ) {
+    var player = Player.getByID( playerMoved.ID );    
+    player.position = playerMoved.position;
+    
+    socket.broadcast.emit( 'player_moved', playerMoved );
   });
   
   socket.on( 'coin_eaten', function( coinID ) {
