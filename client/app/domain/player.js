@@ -28,6 +28,7 @@ function playerModule( game ) {
         player.enableCursors = enableCursors;
         player.preventColisions = preventColisions;
         player.move = move;
+        player.updateScore = updateScore;
 
         player.body.collideWorldBounds = true;
         
@@ -89,15 +90,17 @@ function playerModule( game ) {
         this.y = position.y;
     }
     
+    function updateScore( newScore ) {
+        var score = this.getChildAt( 0 );
+        score.text = newScore; 
+    }
+    
     function preventColisions( coins, players, socket ){
         game.physics.arcade.collide( this, coins, function collisionCallback( player, coin ){
             coin.kill();
             
             if ( socket )
-                socket.emit( 'coin_eaten', coin.ID );
-            
-            var score = player.getChildAt( 0 );
-            score.text = parseInt( score.text ) + 1;        
+                socket.emit( 'coin_eaten', coin.ID );                
         });
         
         game.physics.arcade.collide( this, players, function collisionCallback( me, player ){

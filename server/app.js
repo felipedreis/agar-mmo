@@ -42,6 +42,11 @@ io.on( 'connection', function( socket ){
   socket.on( 'coin_eaten', function( coinID ) {
     Coin.remove( coinID );
     socket.broadcast.emit( 'coin_eaten', coinID );
+    
+    var player = Player.getByID( socket.ID );    
+    player.score += 1;
+    
+    io.emit( 'player_scored', player );
   });
     
   var rivals = extend( [], Player.players ); // Copyng object instead of passing as reference

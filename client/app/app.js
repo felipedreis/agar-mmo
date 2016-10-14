@@ -55,6 +55,11 @@ const GameState = {
             player.move( playerMoved.position );
         });
         
+        socket.on( 'player_scored', function( playerScored ) {
+            var player = Player.getByID( playerScored.ID );
+            player.updateScore( playerScored.score );
+        });
+        
         socket.on( 'new_coin', function( coin ) {
             Coin.create( coin );
         });
