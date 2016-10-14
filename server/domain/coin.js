@@ -19,7 +19,7 @@ module.exports = ( function() {
     }
     
     function remove( coinID ) {
-    	var coin = coins.filter( function( coinID ) {
+    	var coin = coins.filter( function( coin ) {
             return coin.ID == coinID;
         });
         

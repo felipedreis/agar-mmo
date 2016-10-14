@@ -35,6 +35,11 @@ io.on( 'connection', function( socket ){
   socket.on( 'player_moved', function( player ) {
     socket.broadcast.emit( 'player_moved', player );
   });
+  
+  socket.on( 'coin_eaten', function( coinID ) {
+    Coin.remove( coinID );
+    socket.broadcast.emit( 'coin_eaten', coinID );
+  });
     
   var rivals = extend( [], Player.players ); // Copyng object instead of passing as reference
   var coins = extend( [], Coin.coins );
@@ -52,7 +57,7 @@ io.on( 'connection', function( socket ){
     
   setInterval( function() {
     
-    if( Coin.coins.length <= Player.players.length * 5 ) {
+    if( Coin.coins.length <= Player.players.length * 3 ) {
       var coin = Coin.generate();
       io.emit( 'new_coin', coin );
     }

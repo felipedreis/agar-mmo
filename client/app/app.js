@@ -26,10 +26,6 @@ const GameState = {
                
         socket = io( 'http://localhost:3000' );
         
-        socket.on( 'player_registred', function( player ) {
-            Player.create( player );
-        });
-        
         socket.on( 'initial_state', function( state ) {
             
             me = Player.create( state.player );
@@ -41,29 +37,36 @@ const GameState = {
 
             for( var i = 0; i < state.coins.length; i++ ){
                 var coin = state.coins[ i ];
-                Coin.create( coin.position );
+                Coin.create( coin );
             }
 
         });
-                
+               
+        socket.on( 'player_registred', function( player ) {
+            Player.create( player );
+        });       
+          
         socket.on( 'player_disconnected', function( playerID ){
             Player.remove( playerID );
         });
-
-        socket.on( 'new_coin', function( coin ) {
-            Coin.create( coin.position );
-        });
         
         socket.on( 'player_moved', function( playerMoved ) {
-            console.log( 'Player moved: ' + playerMoved.ID );
             var player = Player.getByID( playerMoved.ID );
             player.move( playerMoved.position );
+        });
+        
+        socket.on( 'new_coin', function( coin ) {
+            Coin.create( coin );
+        });
+        
+        socket.on( 'coin_eaten', function( coinID ) {
+            Coin.remove( coinID );
         });
         
     },
     update: function () {        
         if ( me ) {
-            me.preventColisions( Coin.coins, Player.players );
+            me.preventColisions( Coin.coins, Player.players, socket );
             var playerMoved = me.enableCursors( cursors );
             
             if ( playerMoved && socket ) {

@@ -3,8 +3,8 @@ function playerModule( game ) {
     var players = game.add.group();
     players.enableBody = true;
 
-    function create( options ) {
-        var player = players.create( options.position.x, options.position.y, 'coin' );
+    function create( config ) {
+        var player = players.create( config.position.x, config.position.y, 'coin' );
         
         game.physics.arcade.enable( player );        
         
@@ -15,12 +15,12 @@ function playerModule( game ) {
         
         var style = { font: '30px Arial', fill: '#ffffff', align: 'center', fontSize: 20 };
         
-        var score = game.add.text( 0, 0, options.score, style );
+        var score = game.add.text( 0, 0, config.score, style );
         score.position.x -= score.width * 0.5;
         score.position.y -= score.height * 0.5;
         player.addChild( score );
         
-        var name = game.make.text( 0, 0, options.name, style );
+        var name = game.make.text( 0, 0, config.name, style );
         name.position.x -= name.width * 0.5;
         name.position.y += name.height * 1.5;
         player.addChild( name );
@@ -31,7 +31,7 @@ function playerModule( game ) {
 
         player.body.collideWorldBounds = true;
         
-        player.ID = options.ID;
+        player.ID = config.ID;
         
         return player;
     }
@@ -51,34 +51,36 @@ function playerModule( game ) {
 
     function enableCursors( cursors ) {
         
+        var playerMoved = false; 
+        
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         
         if ( ( cursors.left.isDown && cursors.right.isDown ) ||
              ( cursors.up.isDown && cursors.down.isDown ) )
-             return false;
+             return playerMoved;
              
         if ( cursors.left.isDown ) {
             this.body.velocity.x = -200;
-            return true;
+            playerMoved =  true;
         }            
         
         if ( cursors.right.isDown ) {
             this.body.velocity.x = 200;
-            return true;
+            playerMoved =  true;
         }
         
         if ( cursors.up.isDown ) {
             this.body.velocity.y = -200;
-            return true;
+            playerMoved =  true;
         }
         
         if ( cursors.down.isDown ) {
             this.body.velocity.y = 200;
-            return true;
+            playerMoved =  true;
         }
             
-        return false;
+        return playerMoved;
         
     }
     
@@ -87,12 +89,15 @@ function playerModule( game ) {
         this.y = position.y;
     }
     
-    function preventColisions( coins, players ){
+    function preventColisions( coins, players, socket ){
         game.physics.arcade.collide( this, coins, function collisionCallback( player, coin ){
             coin.kill();
             
+            if ( socket )
+                socket.emit( 'coin_eaten', coin.ID );
+            
             var score = player.getChildAt( 0 );
-            score.text = parseInt( score.text ) + 1;            
+            score.text = parseInt( score.text ) + 1;        
         });
         
         game.physics.arcade.collide( this, players, function collisionCallback( me, player ){
