@@ -5,7 +5,7 @@ const bodyParser  = require( 'body-parser' );
 const http        = require( 'http' ).Server( app );
 const extend      = require( 'util' )._extend;
 
-const Coin        = require('./domain/coin.js');
+const Coin        = require( './domain/coin.js' );
 const Player      = require( './domain/player.js' );
     
 const PORT = 3000;
