@@ -33,15 +33,17 @@ io.on( 'connection', function( socket ){
   });
   
   socket.on( 'player_moved', function( playerMoved ) {
-    var player = Player.getByID( playerMoved.ID );    
+    var player = Player.getByID( playerMoved.ID ); 
     player.position = playerMoved.position;
     
     socket.broadcast.emit( 'player_moved', playerMoved );
   });
   
   socket.on( 'coin_eaten', function( coinID ) {
-    Coin.remove( coinID );
-    socket.broadcast.emit( 'coin_eaten', coinID );
+    var coin = Coin.getByID( coinID );
+    coin.remove( function removeCallback() {
+      socket.broadcast.emit( 'coin_eaten', coinID );  
+    });    
     
     var player = Player.getByID( socket.ID );    
     player.score += 1;
