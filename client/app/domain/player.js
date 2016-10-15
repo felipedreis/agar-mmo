@@ -6,7 +6,7 @@ function playerModule( game ) {
     function create( config ) {
         var player = players.create( config.position.x, config.position.y, 'coin' );
         
-        game.physics.arcade.enable( player );        
+        game.physics.arcade.enable( player );     
         
         player.anchor.set( 0.5 );
         
@@ -31,7 +31,7 @@ function playerModule( game ) {
         player.updateScore = updateScore;
 
         player.body.collideWorldBounds = true;
-        
+        player.body.immovable = true;
         player.ID = config.ID;
         
         return player;
