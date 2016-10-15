@@ -11,7 +11,7 @@ module.exports = ( function() {
         var player = {
             ID : idCount,
             name : 'Jogador ' + idCount,
-            theme : 'blue',
+            color : Math.random() * 0xffffff,
             position : position.getRandomPosition(),
             score : 0
         };

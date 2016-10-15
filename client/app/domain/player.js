@@ -10,7 +10,7 @@ function playerModule( game ) {
         
         player.anchor.set( 0.5 );
         
-        player.tint = 0xff00ff;
+        player.tint = config.color;
         player.scale.setTo( 0.8, 0.8 );
         
         var style = { font: '30px Arial', fill: '#ffffff', align: 'center', fontSize: 20 };
